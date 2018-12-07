@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Cards</title>
+</head>
+<script src="./pixi.min.js"></script>
+<script src="./Fire/fire.js"></script>
+<body>
+    <h2>Fire Effect - Touch to move it.</h2>
+    <div id="game-area"></div>
+    <script type="text/javascript">
+        var w = 550 ;
+        var h = 500 ;
+
+        w = Math.min(w,window.innerWidth,window.outerWidth!=0?window.outerWidth:w);
+
+        var type = "WebGL";
+        if(!PIXI.utils.isWebGLSupported()){
+          type = "canvas"
+        }
+
+        PIXI.utils.sayHello(type);
+        var app = new PIXI.Application({
+            width:w,
+            height:h,
+            antialias:false,
+            transparent:true,
+            resolution:1
+        });
+        var renderer = app.renderer ;
+        app.stage.interactive = true;
+        app.renderer.view.style.position = "absolute";
+        app.renderer.view.style.display = "block";
+        //app.renderer.autoResize = true;
+        //app.renderer.resize(window.innerWidth, window.innerHeight);
+
+        document.getElementById("game-area").appendChild(app.view);
+        document.getElementById("game-area").style.width = w+"px";
+
+
+
+        var style = new PIXI.TextStyle({
+            fontSize: 16,
+            fill: "white",
+        });
+        var textField = new PIXI.Text('',style);
+        app.stage.addChild(textField);
+        
+        
+
+        //Fire codes ↓
+        
+        var fireSprite = new fire(PIXI,app.stage);
+        
+
+        //Frame control ↓
+        
+        var fireX = w/2;
+        var fireY = h/2;
+
+        var lastFireX = fireX ;
+        var lastFireY = fireY ;
+
+
+        var lastTime = new Date().getTime();
+        var fr = 60 ;
+        app.ticker.add(()=>{
+            var Ctime = new Date().getTime();
+            fr += (1000/(Ctime-lastTime)-fr)/10;
+           textField.text = Math.round(fr)+" FPS ";
+            lastTime = Ctime ;
+
+
+            fireSprite.enterFrame();
+            fireSprite.fire(fireX,fireY,fireX-lastFireX,fireY-lastFireY);
+
+            lastFireX = fireX ;
+            lastFireY = fireY ;
+        });
+
+        renderer.plugins.interaction.on( 'pointermove', ( event ) => {
+            lastFireX = fireX ;
+            lastFireY = fireY ;
+            fireX = event.data.global.x;
+            fireY = event.data.global.y;
+        } );
+
+    </script>
+</body>
+<style>
+    *{
+        margin:0;
+        padding:0;
+    }
+    body{
+        width:100%;
+        background-image:url("./img/texture.png")
+    }
+
+    #game-area{
+        margin:auto;
+        margin-top:50px;
+    }
+
+    h2{
+        width:100%;
+        color:#fff;
+        text-align: center;
+        padding-top:20px;
+        user-select: none;
+    }
+    
+</style>
+</html>
