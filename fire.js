@@ -48,12 +48,12 @@ var fire = function(PIXI,stage)
 
 var fireElement = function(PIXI,x,y,fireTexture,onNeedToRemove=(target)=>{},vx0=0,vy0=0)
 {
-    var maxSpeed = 4 ;
+    var maxSpeed = 2 ;
     var alphaSpeed = 0.06;
     var Fric = 0.99 ;
     var widthIncreaseFactor = 0.1 ;
     var w = 30 ;
-    var g = 0.7 ;
+    var g = -0.5 ;
 
     var me = this.me = new PIXI.Sprite(fireTexture);
     me.x = x ;
@@ -61,8 +61,8 @@ var fireElement = function(PIXI,x,y,fireTexture,onNeedToRemove=(target)=>{},vx0=
     me.width = w ;
     me.height = w ;
     
-    var vx = vx0+Math.random()*maxSpeed-maxSpeed/2;
-    var vy = vy0+Math.random()*maxSpeed-maxSpeed/2;
+    var vx = vx0/5+Math.random()*maxSpeed-maxSpeed/2;
+    var vy = vy0/5+Math.random()*maxSpeed-maxSpeed/2;
 
     this.enterFrame = function()
     {
