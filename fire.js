@@ -48,11 +48,17 @@ var fire = function(PIXI,stage)
 
 var fireElement = function(PIXI,x,y,fireTexture,onNeedToRemove=(target)=>{},vx0=0,vy0=0)
 {
+    //Maximom speed fro each pardicle
     var maxSpeed = 2 ;
+    //Increas alpha for each frames this much till it completly remove from stage
     var alphaSpeed = 0.06;
+    //Particles speed friction
     var Fric = 0.99 ;
+    //Increas the width every frame
     var widthIncreaseFactor = 0.1 ;
+    //First size of particles
     var w = 30 ;
+    //Gravity
     var g = -0.5 ;
 
     var me = this.me = new PIXI.Sprite(fireTexture);
